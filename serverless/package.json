@@ -1,0 +1,1 @@
+{"name":"devices","description":"","version":"0.1.0","devDependencies":{"aws-sdk-mock":"^5.1.0","mocha":"^6.2.3","serverless-mocha":"^1.12.0"}}
