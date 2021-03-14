@@ -1,6 +1,6 @@
 {
   "auth": {
-    "alwaysainextjs20308a90": {
+    "alwaysainextjsf99166f5f99166f5": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
