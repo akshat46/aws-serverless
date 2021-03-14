@@ -22,7 +22,7 @@ try {
         // initial test
         device.subscribe("trigger");
         device.publish("trigger", JSON.stringify({ hello_world: "Testing triggers..." }));
-        device.subscribe("update");
+        device.subscribe("device_data");
         args.forEach((name) => generateData(name, device));
     });
 } catch (error) {
@@ -46,11 +46,11 @@ function generateData(name, device) {
     // update value1 every 2 seconds
     setInterval(function () {
         value1 = Math.round(Math.random() * 100);
-        device.publish("update", JSON.stringify({ name: name, value1: value1, value2, value2 }));
+        device.publish("device_data", JSON.stringify({ name: name, value1: value1, value2, value2 }));
     }, 2000);
     // update value2 every 6 seconds
     setInterval(function () {
         value2 = Math.round(Math.random() * 100);
-        device.publish("update", JSON.stringify({ name: name, value1: value1, value2, value2 }));
+        device.publish("device_data", JSON.stringify({ name: name, value1: value1, value2, value2 }));
     }, 6000);
 }
