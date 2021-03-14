@@ -63,6 +63,13 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+    authCallback:
+        handler: src/functions/authCallback.createUser
+        events:
+            - cognitoUserPool:
+                  pool: alwaysai-userpool
+                  trigger: PreSignUp
+                  existing: true
     iot-mock:
         handler: src/functions/iot-mock.processData
         events:

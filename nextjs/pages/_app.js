@@ -6,8 +6,8 @@ import awsconfig from "../src/aws-exports";
 Amplify.configure({
     Auth: {
         region: "us-west-1",
-        userPoolId: "us-west-1_AlfXnfniu",
-        userPoolWebClientId: "2qkf9sqqlf5ms7hcup7vn7mgev",
+        userPoolId: "us-west-1_hVPi0ltOi",
+        userPoolWebClientId: "1m60prfmnfjppelnefads7is6e",
     },
 });
 
