@@ -1,10 +1,14 @@
 "use strict";
 
 module.exports.createDevice = async (event, context) => {
-    const body = JSON.parse(event.body);
-    const name = body.devicename;
-    const project = body.projectid;
-    const user = body.userid;
+    // try {
+    //     const body = JSON.parse(event.body);
+    //     const name = body.devicename;
+    //     const project = body.projectid;
+    //     const user = body.userid;
+    // } catch (e) {
+    //     console.log("error parsing user details: ", e);
+    // }
 
     return {
         statusCode: 200,
