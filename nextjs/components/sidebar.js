@@ -1,4 +1,5 @@
 import { Box, HStack, Text, Image, VStack, useDisclosure, SlideFade } from "@chakra-ui/react";
+import { AmplifySignOut } from "@aws-amplify/ui-react";
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -7,7 +8,9 @@ import {
     IoPeopleOutline,
     IoBarChartOutline,
     IoMenuOutline,
+    IoPowerOutline,
 } from "react-icons/io5";
+import SignOut from "./signout";
 // import { useRouter } from "next/router";
 
 function Sidebar(props) {
@@ -41,6 +44,11 @@ function Sidebar(props) {
                     <SidebarItem selected={items.projects}>
                         <IoBarChartOutline />
                         <Text cursor="pointer">Projects</Text>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <Box px="4" py="2" bg="gray.700" borderRadius="sm">
+                            <SignOut cursor="pointer" />
+                        </Box>
                     </SidebarItem>
                 </VStack>
             </SlideFade>

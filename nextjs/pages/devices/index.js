@@ -1,5 +1,6 @@
 import { Flex, Box, SimpleGrid, HStack, Button, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Amplify, { Auth } from "aws-amplify";
 import Head from "next/head";
 import Link from "next/link";
@@ -16,12 +17,18 @@ Amplify.configure({
 
 export default function Devices() {
     let [user, setUser] = useState();
+    let router = useRouter();
     useEffect(() => {
-        Auth.currentAuthenticatedUser({
-            bypassCache: false,
-        })
-            .then((user) => setUser(user))
-            .catch((err) => console.log("currentAuthenticatedUser", err));
+        if (user === undefined) {
+            Auth.currentAuthenticatedUser({
+                bypassCache: false,
+            })
+                .then((u) => {
+                    console.log("user:", u);
+                    setUser(u);
+                })
+                .catch((err) => router.push("/authentication"));
+        }
     });
     return (
         <div>
@@ -29,7 +36,7 @@ export default function Devices() {
                 <title>Alwas AI</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            {user !== undefined ? (
+            {user !== undefined && (
                 <Flex>
                     <Sidebar selected="devices" />
                     <Box p="12" w="100%">
@@ -50,15 +57,6 @@ export default function Devices() {
                         </Flex>
                     </Box>
                 </Flex>
-            ) : (
-                <>
-                    <Text fontSize="2xl">Not logged in.</Text>
-                    <Link href="/authentication">
-                        <Text color="blue.400" cursor="pointer">
-                            Log in
-                        </Text>
-                    </Link>
-                </>
             )}
         </div>
     );

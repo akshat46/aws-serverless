@@ -2,7 +2,6 @@
 var Knex = require("knex");
 
 module.exports.createUser = (event, context, callback) => {
-    console.log("received event:", event);
     var knex = Knex({
         client: "postgresql",
         connection: {
