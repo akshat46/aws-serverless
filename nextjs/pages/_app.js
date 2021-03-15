@@ -1,8 +1,7 @@
 import "../styles/globals.css";
+import Amplify, { Auth } from "aws-amplify";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../theme";
-import Amplify, { Auth } from "aws-amplify";
-import awsconfig from "../src/aws-exports";
 Amplify.configure({
     Auth: {
         region: "us-west-1",
@@ -12,6 +11,9 @@ Amplify.configure({
 });
 
 function MyApp({ Component, pageProps }) {
+    // Auth.currentSession()
+    //     .then((data) => console.log("currentSession:", data))
+    //     .catch((err) => console.log("currentSession:", err));
     return (
         <ChakraProvider theme={theme}>
             <Component {...pageProps} />
