@@ -24,6 +24,12 @@ frameworkVersion: "2"
 
 provider:
     name: aws
+    vpc:
+        securityGroupIds:
+            - "sg-ba7798f2"
+        subnetIds:
+            - "subnet-73ea3529"
+            - "subnet-767bf810"
     runtime: nodejs12.x
     lambdaHashingVersion: 20201221
     stage: ${opt:stage, 'dev'}
@@ -71,10 +77,10 @@ functions:
                   trigger: PreSignUp
                   existing: true
         environment:
-            RDSHost: "psdb-1.cl8bjlmtaoxv.us-east-2.rds.amazonaws.com"
-            RDSName: "postgres"
-            RDSUser: "postgres"
-            RDSPassword: "PostresQL?"
+            RDS_HOST: "database-1.ci6phl6lwafw.us-west-1.rds.amazonaws.com"
+            RDS_DB: "postgres"
+            RDS_USER: "postgres"
+            RDS_PSSWD: "PostgresQL?"
     iot-mock:
         handler: src/functions/iot-mock.processData
         events:

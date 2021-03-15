@@ -6,10 +6,10 @@ module.exports.createUser = (event, context, callback) => {
     var knex = Knex({
         client: "postgresql",
         connection: {
-            host: process.env.RDSHost,
-            database: process.env.RDSName,
-            user: process.env.RDSUser,
-            password: process.env.RDSPassword,
+            host: process.env.RDS_HOST,
+            database: process.env.RDS_DB,
+            user: process.env.RDS_USER,
+            password: process.env.RDS_PSSWD,
         },
         pool: {
             min: 2,
@@ -18,10 +18,20 @@ module.exports.createUser = (event, context, callback) => {
     });
     try {
         if (event.response === undefined) throw "Error parsing event. No `response`.";
+        console.log("response found");
         event.response.autoConfirmUser = true;
         event.response.autoVerifyEmail = true;
-        knex("user").insert({ username: event.username, email: event.email });
-        knex.destroy();
+        console.log("response set");
+        knex("user")
+            .insert({ username: event.userName, email: event.request.userAttributes.email })
+            .then(() => console.log("data inserted"))
+            .catch((err) => {
+                console.log(err);
+                throw err;
+            })
+            .finally(() => {
+                knex.destroy();
+            });
     } catch (e) {
         console.log("Error: ", e);
         knex.destroy();
