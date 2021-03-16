@@ -18,6 +18,7 @@ provider:
     region: us-west-1
 
 functions:
+    # Sign UP
     authCallback:
         handler: src/functions/authCallback.createUser
         events:
@@ -30,12 +31,14 @@ functions:
             RDS_DB: "postgres"
             RDS_USER: "postgres"
             RDS_PSSWD: "PostgresQL?"
+    # iot handle iot device reply
     iot-mock:
         handler: src/functions/iot-mock.processData
         events:
             - iot:
                   name: "device_data_event"
                   sql: "SELECT * FROM 'device_data'"
+    # create device
     devices:
         handler: src/functions/devices.createDevice
         events:
@@ -43,6 +46,19 @@ functions:
                   method: put
                   cors: true
                   path: devices/create
+        environment:
+            RDS_HOST: "database-1.ci6phl6lwafw.us-west-1.rds.amazonaws.com"
+            RDS_DB: "postgres"
+            RDS_USER: "postgres"
+            RDS_PSSWD: "PostgresQL?"
+    # get devices by user_id
+    getDevicesByUser:
+        handler: src/functions/getDevicesByUser.getDevicesByUser
+        events:
+            - httpApi:
+                  method: get
+                  cors: true
+                  path: /devices/byuser/{uid}
         environment:
             RDS_HOST: "database-1.ci6phl6lwafw.us-west-1.rds.amazonaws.com"
             RDS_DB: "postgres"

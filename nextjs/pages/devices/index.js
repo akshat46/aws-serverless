@@ -15,16 +15,18 @@ Amplify.configure({
     },
 });
 
-export default function Devices() {
+export default function Devices({ data }) {
     let [user, setUser] = useState();
+    let [devices, setDevices] = useState([]);
     let router = useRouter();
+    console.log(data);
     useEffect(() => {
         if (user === undefined) {
+            setDevices(data);
             Auth.currentAuthenticatedUser({
                 bypassCache: false,
             })
                 .then((u) => {
-                    console.log("user:", u);
                     setUser(u);
                 })
                 .catch((err) => router.push("/authentication"));
@@ -41,10 +43,6 @@ export default function Devices() {
                     <Sidebar selected="devices" />
                     <Box p="12" w="100%">
                         <Box m="4" w="100%" h="50px">
-                            <InputGroup w="200px" color="brand.300" float="left">
-                                <InputLeftElement pointerEvents="none" children={<IoSearch />} />
-                                <Input bg="brand.100" variant="filled" borderRadius="sm" />
-                            </InputGroup>
                             <Link href="/devices/new">
                                 <Button float="right" leftIcon={<IoAdd />}>
                                     New Device
@@ -52,12 +50,39 @@ export default function Devices() {
                             </Link>
                         </Box>
                         <Flex flexDirection="row" flexWrap="wrap" spacing="6">
-                            <Device name="Device11" />
-                            <Device name="Device11" />
+                            {devices.length === 0 ? (
+                                <Text fontSize="2xl" m="20% auto" color="gray.400">
+                                    You have no devices.
+                                </Text>
+                            ) : (
+                                devices.map((d) => <Device name={d.name} value2={d.value2} value1={d.value1} />)
+                            )}
                         </Flex>
                     </Box>
                 </Flex>
             )}
         </div>
     );
+}
+
+export async function getServerSideProps(context) {
+    const username = context.query.uid;
+    console.log("************uid: ", username);
+    const url = `https://mdv1fy6vid.execute-api.us-west-1.amazonaws.com/devices/byuser/?uid=${username}`;
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        mode: "cors",
+    });
+    const data = await res.json();
+    if (!data) {
+        return {
+            notFound: true,
+        };
+    }
+    console.log("response:", data);
+    // const data = res.body);
+    return { props: { data: data.devices } };
 }

@@ -40,7 +40,10 @@ export default function newDevice(props) {
                 },
                 mode: "cors",
             });
-            console.log(response);
+            if (response.status === 201) {
+                console.log(response);
+                router.push(`/devices?uid=${user.username}`);
+            }
         } catch (e) {
             console.log("err: ", e);
         }

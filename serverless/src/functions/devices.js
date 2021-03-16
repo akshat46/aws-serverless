@@ -37,8 +37,24 @@ module.exports.createDevice = (event, context, callback) => {
     } catch (e) {
         console.log("Error: ", e);
         knex.destroy();
-        callback(e);
+        callback({
+            statusCode: 400,
+            body: JSON.stringify({ message: e }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "PUT",
+                "Content-Type": "application/json",
+            },
+        });
     }
 
-    callback(null, { statusCode: 200, body: JSON.stringify({ message: "device created" }) });
+    callback(null, {
+        statusCode: 201,
+        body: JSON.stringify({ message: "device created" }),
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "PUT",
+            "Content-Type": "application/json",
+        },
+    });
 };
