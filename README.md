@@ -9,11 +9,11 @@
 - realtime data for the device in nextjs app.
 - lambda functions for: authorization, creating a device, getting a device by specified user, and a function that showcases getting data from IoT but doesn't do anything with it. 
 
+## Basic Install and Run
+
 _This doc assumes you have node(npm, npx) installed._
 
 Clone the repository and do the following: 
-
-## Basic Install and Run
 
 ```bash
 cd nextjs
