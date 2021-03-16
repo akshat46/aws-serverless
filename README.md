@@ -1,5 +1,14 @@
 # aws-serverless
 
+## Overview
+
+- Knexjs schema and migrations (models for user and device). 
+- CRUD actions on the device table with aws Lambda
+- nextjs app with pages to view, and create devices.
+- authentication with cognito- iot simulation service
+- realtime data for the device in nextjs app.
+- lambda functions for: authorization, creating a device, getting a device by specified user, and a function that showcases getting data from IoT but doesn't do anything with it. 
+
 _This doc assumes you have node(npm, npx) installed._
 
 Clone the repository and do the following: 
