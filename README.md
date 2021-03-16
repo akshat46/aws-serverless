@@ -32,6 +32,19 @@ npm run dev
 
 - create a new device and note down its name
 
+- unzip the provided ceritificates folder in `iotmock` directory such that the directory structure looks as following:
+
+```
+iotmock
+├── certs
+│   ├── private.pem.key
+│   ├── public.pem.key
+│   ├── root-ca.pem
+│   └── thing-certificate.pem.crt
+├── index.js
+├── package.json
+```
+
 - run node service ***with specific name of your device as argument***
 ```
 cd iotmock
