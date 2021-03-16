@@ -11,9 +11,6 @@ Amplify.configure({
 });
 
 function MyApp({ Component, pageProps }) {
-    // Auth.currentSession()
-    //     .then((data) => console.log("currentSession:", data))
-    //     .catch((err) => console.log("currentSession:", err));
     return (
         <ChakraProvider theme={theme}>
             <Component {...pageProps} />

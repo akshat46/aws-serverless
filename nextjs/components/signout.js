@@ -13,8 +13,8 @@ export default function SignOut(props) {
     let router = useRouter();
     return (
         <Text
-            onClick={async () => {
-                await Auth.signOut();
+            onClick={() => {
+                Auth.signOut();
                 router.push("/authentication");
             }}
             {...props}>

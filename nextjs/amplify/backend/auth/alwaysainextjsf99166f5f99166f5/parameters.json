@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "alwaysainextjs63191b64_identitypool_63191b64",
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "alwaysf99166f5",
     "userPoolName": "alwaysainextjsf99166f5_userpool_f99166f5",
     "autoVerifiedAttributes": [
@@ -12,8 +14,8 @@
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
-    "defaultPasswordPolicy": false,
-    "passwordPolicyMinLength": 8,
+    "defaultPasswordPolicy": true,
+    "passwordPolicyMinLength": "6",
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
         "email"
@@ -30,7 +32,7 @@
     "userpoolClientSetAttributes": true,
     "sharedId": "f99166f5",
     "resourceName": "alwaysainextjsf99166f5f99166f5",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -48,12 +50,16 @@
     "adminQueries": false,
     "triggers": "{}",
     "hostedUI": false,
-    "userPoolGroupList": [],
+    "userPoolGroupList": [
+        "amplifyuserpool"
+    ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "parentStack": {
         "Ref": "AWS::StackId"
     },
     "permissions": [],
-    "dependsOn": []
+    "dependsOn": [],
+    "thirdPartyAuth": false,
+    "authProviders": []
 }

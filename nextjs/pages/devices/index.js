@@ -1,7 +1,8 @@
 import { Flex, Box, SimpleGrid, HStack, Button, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify, { Auth, PubSub } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub";
 import Head from "next/head";
 import Link from "next/link";
 import Device from "../../components/device";
@@ -14,13 +15,25 @@ Amplify.configure({
         userPoolWebClientId: "1m60prfmnfjppelnefads7is6e",
     },
 });
+Amplify.addPluggable(
+    new AWSIoTProvider({
+        aws_pubsub_region: "us-west-1",
+        aws_pubsub_endpoint: "wss://a3daefqumkhkp3-ats.iot.us-west-1.amazonaws.com/mqtt",
+    })
+);
+
+PubSub.configure();
 
 export default function Devices({ data }) {
     let [user, setUser] = useState();
     let [devices, setDevices] = useState([]);
     let router = useRouter();
-    console.log(data);
     useEffect(() => {
+        PubSub.subscribe("device_data").subscribe({
+            next: (data) => console.log("Message received", data),
+            error: (error) => console.error(error),
+            close: () => console.log("Done"),
+        });
         if (user === undefined) {
             setDevices(data);
             Auth.currentAuthenticatedUser({
@@ -67,7 +80,6 @@ export default function Devices({ data }) {
 
 export async function getServerSideProps(context) {
     const username = context.query.uid;
-    console.log("************uid: ", username);
     const url = `https://mdv1fy6vid.execute-api.us-west-1.amazonaws.com/devices/byuser/?uid=${username}`;
     const res = await fetch(url, {
         method: "GET",
@@ -82,7 +94,6 @@ export async function getServerSideProps(context) {
             notFound: true,
         };
     }
-    console.log("response:", data);
     // const data = res.body);
     return { props: { data: data.devices } };
 }

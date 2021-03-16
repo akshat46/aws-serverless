@@ -1,6 +1,6 @@
 [
-  {
-    "groupName": "amplifyuserpool",
-    "precedence": 1
-  }
+    {
+        "groupName": "amplifyuserpool",
+        "precedence": 1
+    }
 ]
