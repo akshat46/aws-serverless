@@ -33,33 +33,9 @@ module.exports.getDevicesByUser = async (event, context) => {
                 "Content-Type": "application/json",
             },
         };
-        // knex("user")
-        //     .where({ username: username })
-        //     .select("id")
-        //     .then((data) => {
-        //         knex("user_to_devices")
-        //             .where({ user_id: data[0].id })
-        //             .select("device_id")
-        //             .then((data) => {
-        //                 let arr = data.map((d) => d.device_id);
-        //                 knex.select("*")
-        //                     .from("device")
-        //                     .whereIn("id", arr)
-        //                     .then((data) => console.log("final devices:", data));
-        //             });
-        //     });
     } catch (e) {
         console.log("Error: ", e);
         knex.destroy();
-        // callback({
-        //     statusCode: 400,
-        //     body: JSON.stringify({ message: e }),
-        //     headers: {
-        //         "Access-Control-Allow-Origin": "*",
-        //         "Access-Control-Allow-Methods": "GET",
-        //         "Content-Type": "application/json",
-        //     },
-        // });
         return {
             statusCode: 400,
             body: JSON.stringify({ message: e }),
@@ -70,23 +46,4 @@ module.exports.getDevicesByUser = async (event, context) => {
             },
         };
     }
-
-    // callback(null, {
-    //     statusCode: 200,
-    //     body: JSON.stringify({ message: "device created" }),
-    //     headers: {
-    //         "Access-Control-Allow-Origin": "*",
-    //         "Access-Control-Allow-Methods": "GET",
-    //         "Content-Type": "application/json",
-    //     },
-    // });
-    return {
-        statusCode: 204,
-        body: JSON.stringify({ message: "no devices" }),
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-            "Content-Type": "application/json",
-        },
-    };
 };

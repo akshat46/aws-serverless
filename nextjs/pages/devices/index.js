@@ -1,46 +1,29 @@
 import { Flex, Box, SimpleGrid, HStack, Button, Input, InputGroup, InputLeftElement, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Amplify, { Auth, PubSub } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+import Amplify, { Auth } from "aws-amplify";
 import Head from "next/head";
 import Link from "next/link";
 import Device from "../../components/device";
 import Sidebar from "../../components/sidebar";
 import { IoAdd, IoSearch } from "react-icons/io5";
-Amplify.configure({
-    Auth: {
-        region: "us-west-1",
-        userPoolId: "us-west-1_hVPi0ltOi",
-        userPoolWebClientId: "1m60prfmnfjppelnefads7is6e",
-    },
-});
-Amplify.addPluggable(
-    new AWSIoTProvider({
-        aws_pubsub_region: "us-west-1",
-        aws_pubsub_endpoint: "wss://a3daefqumkhkp3-ats.iot.us-west-1.amazonaws.com/mqtt",
-    })
-);
-
-PubSub.configure();
 
 export default function Devices({ data }) {
+    console.log("data:", data);
     let [user, setUser] = useState();
     let [devices, setDevices] = useState([]);
     let router = useRouter();
     useEffect(() => {
-        PubSub.subscribe("device_data").subscribe({
-            next: (data) => console.log("Message received", data),
-            error: (error) => console.error(error),
-            close: () => console.log("Done"),
-        });
         if (user === undefined) {
-            setDevices(data);
             Auth.currentAuthenticatedUser({
                 bypassCache: false,
             })
                 .then((u) => {
-                    setUser(u);
+                    if (!data) router.push(`/devices?uid=${u.username}`);
+                    else {
+                        setDevices(data);
+                        setUser(u);
+                    }
                 })
                 .catch((err) => router.push("/authentication"));
         }
@@ -68,7 +51,9 @@ export default function Devices({ data }) {
                                     You have no devices.
                                 </Text>
                             ) : (
-                                devices.map((d) => <Device name={d.name} value2={d.value2} value1={d.value1} />)
+                                devices.map((d) => {
+                                    return <Device name={d.name} value2={d.value2} value1={d.value1} />;
+                                })
                             )}
                         </Flex>
                     </Box>
@@ -80,6 +65,9 @@ export default function Devices({ data }) {
 
 export async function getServerSideProps(context) {
     const username = context.query.uid;
+    if (username === undefined) {
+        return { props: { data: false } };
+    }
     const url = `https://mdv1fy6vid.execute-api.us-west-1.amazonaws.com/devices/byuser/?uid=${username}`;
     const res = await fetch(url, {
         method: "GET",
@@ -89,7 +77,7 @@ export async function getServerSideProps(context) {
         mode: "cors",
     });
     const data = await res.json();
-    if (!data) {
+    if (!data.devices) {
         return {
             notFound: true,
         };

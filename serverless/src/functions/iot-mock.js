@@ -2,11 +2,10 @@
 
 module.exports.processData = async (event, context) => {
     try {
-        let name = event.name;
-        let value1 = event.value1;
-        let value2 = event.value2;
+        console.log(event);
     } catch (e) {
         console.log("Error parsing event data: ", e);
+        return { statusCode: 400 };
     }
     return {
         statusCode: 200,
