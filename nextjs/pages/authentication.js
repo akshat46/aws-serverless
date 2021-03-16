@@ -25,7 +25,7 @@ const Authentication = () => {
             <div>Hello, {user.username}</div>
             <AmplifySignOut />
             <Box mt="12" pos="relative" w="100%" textAlign="center">
-                <Link href={`/devices?uid=${user.username}`}>
+                <Link href={"/devices"}>
                     <Button>Devices</Button>
                 </Link>
             </Box>

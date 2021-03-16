@@ -9,7 +9,6 @@ import Sidebar from "../../components/sidebar";
 import { IoAdd, IoSearch } from "react-icons/io5";
 
 export default function Devices({ data }) {
-    console.log("data:", data);
     let [user, setUser] = useState();
     let [devices, setDevices] = useState([]);
     let router = useRouter();
